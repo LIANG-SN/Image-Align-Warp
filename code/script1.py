@@ -12,7 +12,7 @@ blue = np.load('../data/blue.npy')
 print("width:", len(blue[0]))
 print("height:", len(blue))
 # 2. Find best alignment
-rgbResult = alignChannels(red, green, blue) / 255
+rgbResult = alignChannels(red, green, blue) / 256.0
 
 # 3. save result to rgb_output.jpg (IN THE "results" FOLDER)
 import matplotlib.pyplot as plot
@@ -23,5 +23,5 @@ raw[:, :, 0] = red[:, :]
 raw[:, :, 1] = green[:, :]
 raw[:, :, 2] = blue[:, :]
 raw[:, :, :] /= 256.0
-plot.imsave('../result/raw.jpg', raw)
-plot.imsave('../result/rgb_output.jpg', rgbResult)
+plot.imsave('../results/raw.jpg', raw)
+plot.imsave('../results/rgb_output.jpg', rgbResult)

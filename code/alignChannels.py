@@ -29,9 +29,8 @@ def alignChannels(red, green, blue):
     return result
 
 def align2(color1, color2, transRange):
-  dist = (int)("sherwood_liang")
+  dist = (ord("L") + ord("I") + ord("A") + ord("N") + ord("G")) * 20010602
   print(dist)
-  dist = 9999999
   offset = 40
   h = len(color1)
   w = len(color1[0])

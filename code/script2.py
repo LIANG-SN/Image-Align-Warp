@@ -2,6 +2,7 @@ import imageio
 import matplotlib.pyplot as plt
 import numpy as np
 import warpA_check
+import warpA
 
 # Read the image
 im = imageio.imread('../data/mug.jpg')
@@ -17,7 +18,6 @@ axes[0, 0].imshow(im)
 axes[0, 0].set_title('original')
 axes[0, 1].imshow(im_gray, cmap=plt.get_cmap('gray'))
 axes[0, 1].set_title('grayscale')
-axes[1, 1].remove()
 
 
 # define some helper functions
@@ -50,10 +50,14 @@ A = (transf(output_shape[1]//2, output_shape[0]//2,)
 
 # plot a dot at the rotation center
 axes[0, 1].plot(cx, cy, 'r+')
-warped_im = warpA_check.warp(im_gray, A, output_shape)
 
+warped_im = warpA_check.warp(im_gray, A, output_shape)
 axes[1, 0].imshow(warped_im, cmap=plt.get_cmap('gray'))
 axes[1, 0].set_title('warped')
+
+m_warped_im = warpA.warp(im_gray, A, output_shape)
+axes[1, 1].imshow(m_warped_im, cmap=plt.get_cmap('gray'))
+axes[1, 1].set_title('my warped')
 
 # write the plot to an image
 plt.savefig('../results/transformed_soln.jpg')
