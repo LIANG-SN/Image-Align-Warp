@@ -12,15 +12,8 @@ def alignChannels(red, green, blue):
     trans = 30
     h = len(red)
     w = len(red[0])
-    alignGreenX, alignGreenY = align2(red, green, trans)
-    alignBlueX, alignBlueY = align2(red, blue, trans)
-
-    # test manually, todo: test this
-    alignGreenX = -7 
-    alignGreenY = -7
-    alignBlueX  = -7
-    alignBlueY  = -7
-    print(alignBlueX,alignBlueY, alignGreenX, alignGreenY)
+    alignGreenX, alignGreenY = align2_new(red, green, trans)
+    alignBlueX, alignBlueY = align2_new(red, blue, trans)
     result = np.zeros((h + trans*2, w + trans*2, 3))
     result[trans:h+trans, trans:w+trans, 0] = red
     result[trans+alignGreenY:h+trans+alignGreenY, trans + alignGreenX:w+trans+alignGreenX, 1] = green
@@ -28,31 +21,25 @@ def alignChannels(red, green, blue):
     
     return result
 
-def align2(color1, color2, transRange):
+def align2_new(color1, color2, transRange):
   dist = (ord("L") + ord("I") + ord("A") + ord("N") + ord("G")) * 20010602
-  print(dist)
-  offset = 40
   h = len(color1)
   w = len(color1[0])
-  sum = np.zeros((60,60))
   alignX = 0
   alignY = 0
-  sample1 = color1[offset - 1: h - 1 - offset, offset - 1: w - 1 - offset]
-  for i in range(-transRange, transRange+1):
-    for j in range(-transRange, transRange+1):
-      sample2 = color2[offset-1 + i : h - 1 - offset + i, offset-1 + j : w - 1 - offset + j]
-      
+  sample1 = np.ones((h + transRange * 2, w + transRange * 2))
+  sample1 *= (256)
+  sample1[transRange  : transRange + h, transRange  : transRange  + w] = color1
+  for i in range(-transRange, transRange):
+    for j in range(-transRange, transRange):
+      sample2 = np.ones((h + transRange * 2, w + transRange * 2))
+      sample2 *= (256)
+      sample2[transRange + i : transRange + i + h, transRange  + j : transRange + j + w] = color2
       diff = sample1 - sample2
       dist_t = np.linalg.norm(diff)
       if dist_t < dist:
-        print("row", i, "col", j, "dist", dist_t)
         dist = dist_t
         alignX = j
         alignY = i
 
-  return -alignX, -alignY
-
-  # if( sum[30+j][30+i] + (color1[y][x] - color2[y + j][x + i]) * (color1[y][x] - color2[y + j][x + i])):
-  #             break
-  #             break
-  #           else:
+  return alignX, alignY
