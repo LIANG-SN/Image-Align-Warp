@@ -23,5 +23,5 @@ raw[:, :, 0] = red[:, :]
 raw[:, :, 1] = green[:, :]
 raw[:, :, 2] = blue[:, :]
 raw[:, :, :] /= 256.0
-plot.imsave('../results/raw.jpg', raw)
+# plot.imsave('../results/raw.jpg', raw)
 plot.imsave('../results/rgb_output.jpg', rgbResult)
